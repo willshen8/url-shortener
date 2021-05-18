@@ -7,8 +7,29 @@
 }
 
 .content {
+  display: flex;
   padding: 0 50px;
   min-height: calc(100vh - 64px - 70px);
+}
+
+.shortener {
+  width: 100%;
+  background: #fff;
+  padding: 24px 20px;
+}
+
+.linkField {
+  display: flex;
+  width: 100%;
+}
+
+.linkFieldInput {
+  width: 100%;
+  margin-right: 5px;
+}
+
+.linkFieldButton {
+  width: 120px;
 }
 
 .footer {
