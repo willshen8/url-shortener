@@ -1,10 +1,22 @@
 import Head from 'next/head'
-import { Layout, Button, Form, Input } from 'antd'
+import { useState } from 'react';
+import { Alert, Layout, Button, Form, Input, Typography } from 'antd'
 import styles from '../styles/Home.module.css'
 
 const { Header, Content, Footer } = Layout;
+const { Title } = Typography;
 
 export default function Home() {
+  const [status, setStatus] = useState<'initial' | 'error' > ('initial');
+  const [form] = Form.useForm();
+  const [message, setMessage] = useState('')
+
+  const urlValidation = () => {
+    setStatus('error');
+    const error = form.getFieldError('link').join('')
+    setMessage(error)
+  }
+
   return (
     <Layout>
       <Head>
@@ -17,11 +29,16 @@ export default function Home() {
       </Header>
       <Content className={styles.content}>
         <div className={styles.shortener}> 
-          <Form>
+          <Title level={5}> Copy &amp; Paste your length link</Title>
+          <Form onFinishFailed={urlValidation} form={form}>
             <div className={styles.linkField}>
               <div className={styles.linkFieldInput}>
-                <Form.Item name="link" rules={[]}>
-                  <Input placeholder="https://my-super-long-link.com" size="large"/>
+                <Form.Item name="link" noStyle rules={[{
+                  required: true,
+                  message: 'Please paste a correct link',
+                  type: 'url'
+                }]}>
+                  <Input placeholder="https://my-super-long-link.com" size="large" type="link"/>
                 </Form.Item>
               </div>
 
@@ -34,6 +51,7 @@ export default function Home() {
               </div>
           </div>
         </Form>
+        {status === 'error' && <Alert showIcon message={message} type="error" /> }
         </div>
       </Content>
 
